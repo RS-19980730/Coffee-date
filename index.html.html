@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question for Aria</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap');
+
+:root{
+  --ivory:#f8f2e7; --paper:#fffdf8; --ink:#292720; --muted:#756e64;
+  --green:#20372d; --green2:#304c3d; --gold:#b39458; --rose:#a87872;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; overflow:hidden; color:var(--ink);
+  background:radial-gradient(circle at 15% 15%,#fffaf0 0,transparent 30%),
+             radial-gradient(circle at 85% 85%,#eee5d5 0,transparent 35%),var(--ivory);
+  font-family:"Cormorant Garamond",Georgia,serif;
+  display:flex;align-items:center;justify-content:center;
+}
+.card{
+  width:min(92vw,720px); min-height:650px; position:relative; overflow:hidden;
+  background:rgba(255,253,248,.94); border:1px solid rgba(179,148,88,.55);
+  box-shadow:0 28px 90px rgba(45,35,25,.16); text-align:center;
+  padding:72px 42px 58px;
+}
+.card:before{content:"";position:absolute;inset:12px;border:1px solid rgba(179,148,88,.24);pointer-events:none}
+.content{position:relative;z-index:3;max-width:560px;margin:auto}
+.eyebrow{font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:26px}
+h1{font-weight:500;font-size:clamp(42px,8vw,64px);line-height:1;margin:0 0 22px}
+.lead{font-size:21px;font-style:italic;line-height:1.45;color:var(--muted);margin:0 auto 34px}
+.question{font-size:clamp(29px,5vw,43px);line-height:1.1;margin:0 auto 40px}
+.buttons{display:flex;justify-content:center;gap:18px;min-height:60px;position:relative}
+button{font-family:Montserrat,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:17px 34px;border-radius:40px;cursor:pointer;transition:.22s}
+#yes{background:var(--green);color:#fff;border:1px solid #c9a96b;box-shadow:0 10px 28px #20372d2e}
+#yes:hover{transform:translateY(-2px);background:var(--green2)}
+#no{background:transparent;color:var(--ink);border:1px solid #cbbfae}
+.footer{font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9b9185;margin-top:46px}
+.flower{position:absolute;width:175px;height:175px;z-index:1;opacity:.92}
+.flower.tl{left:-12px;top:-14px}.flower.br{right:-16px;bottom:-18px;transform:rotate(180deg)}
+.stem{position:absolute;width:5px;height:150px;background:linear-gradient(#526d45,#304a37);border-radius:100%;transform:rotate(35deg);left:84px;top:35px}
+.leaf{position:absolute;width:68px;height:25px;background:#5b754d;border-radius:100% 0 100% 0;transform:rotate(-28deg);left:20px;top:106px}
+.leaf2{position:absolute;width:65px;height:24px;background:#6b8256;border-radius:0 100% 0 100%;transform:rotate(32deg);left:86px;top:79px}
+.lily{position:absolute;left:25px;top:12px;width:105px;height:105px}
+.petal{position:absolute;left:40px;top:5px;width:31px;height:73px;background:linear-gradient(90deg,#fffdf6,#eadfc8);border-radius:60% 60% 48% 48%;transform-origin:50% 100%;box-shadow:inset 0 0 0 1px #e5d9c2}
+.p1{transform:rotate(0)}.p2{transform:rotate(60deg)}.p3{transform:rotate(120deg)}.p4{transform:rotate(180deg)}.p5{transform:rotate(240deg)}.p6{transform:rotate(300deg)}
+.center{position:absolute;left:49px;top:48px;width:20px;height:20px;border-radius:50%;background:#d3ae62;box-shadow:0 0 0 4px #f7ecd3}
+.stamen{position:absolute;width:3px;height:28px;background:#a47c3c;left:49px;top:24px;transform-origin:bottom;border-radius:3px}
+.s1{transform:rotate(-28deg)}.s2{transform:rotate(0)}.s3{transform:rotate(28deg)}
+
+#success{display:none}
+.success-title{font-size:clamp(38px,7vw,56px);font-style:italic;color:var(--green);margin:0 0 16px}
+.success-text{font-size:21px;line-height:1.5;color:var(--muted);margin:0 auto 28px}
+.coupon{
+  width:min(100%,500px);margin:auto;padding:30px 28px;background:#fbf4e6;
+  border:1px dashed var(--gold);outline:1px solid #d8c69f;outline-offset:-9px;
+  box-shadow:0 12px 30px #493a2512
+}
+.coupon-label{font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.coupon h2{font-size:34px;font-weight:500;margin:12px 0 4px}
+.coupon p{font-size:17px;color:var(--muted);margin:5px}
+.coupon .name{font-size:31px;font-style:italic;color:var(--green);margin:13px 0}
+.note{font-family:Montserrat,sans-serif;font-size:10px!important;letter-spacing:.08em;text-transform:uppercase}
+.signature{font-size:22px;font-style:italic;color:var(--rose);margin-top:25px}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:20}
+@media(max-width:520px){.card{min-height:610px;padding:60px 25px 45px}.flower{transform:scale(.78)}.flower.br{transform:rotate(180deg) scale(.78)}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<main class="card">
+  <div class="flower tl" aria-hidden="true">
+    <div class="stem"></div><div class="leaf"></div><div class="leaf2"></div>
+    <div class="lily"><i class="petal p1"></i><i class="petal p2"></i><i class="petal p3"></i><i class="petal p4"></i><i class="petal p5"></i><i class="petal p6"></i><i class="center"></i><i class="stamen s1"></i><i class="stamen s2"></i><i class="stamen s3"></i></div>
+  </div>
+  <div class="flower br" aria-hidden="true">
+    <div class="stem"></div><div class="leaf"></div><div class="leaf2"></div>
+    <div class="lily"><i class="petal p1"></i><i class="petal p2"></i><i class="petal p3"></i><i class="petal p4"></i><i class="petal p5"></i><i class="petal p6"></i><i class="center"></i><i class="stamen s1"></i><i class="stamen s2"></i><i class="stamen s3"></i></div>
+  </div>
+
+  <div class="content">
+    <section id="questionScreen">
+      <div class="eyebrow">A little invitation</div>
+      <h1>Dear Aria,</h1>
+      <p class="lead">I have a rather important question for you…</p>
+      <p class="question">Will you go out on a coffee date with me?</p>
+      <div class="buttons">
+        <button id="yes">Yes, with pleasure ♡</button>
+        <button id="no">No</button>
+      </div>
+      <div class="footer">An invitation from Raj</div>
+    </section>
+
+    <section id="success">
+      <div class="eyebrow">A most excellent decision</div>
+      <h2 class="success-title">Congratulations, Aria.</h2>
+      <p class="success-text">You have agreed to a coffee date with <strong>Raj</strong>.<br>
+      Here is your coupon. Please provide it to the host before the date.</p>
+      <div class="coupon">
+        <div class="coupon-label">Official Coffee Date Coupon</div>
+        <h2>One Coffee Date</h2>
+        <div class="name">Aria ♡ Raj</div>
+        <p>Good coffee. Great conversation.<br>One lovely date together.</p>
+        <p class="note">Please present this coupon to the host before the date.</p>
+      </div>
+      <div class="signature">With all my heart, Raj ♡</div>
+    </section>
+  </div>
+</main>
+
+<script>
+const yes=document.getElementById("yes"),no=document.getElementById("no");
+const q=document.getElementById("questionScreen"),s=document.getElementById("success");
+let moves=0;
+function dodge(){
+  moves++;
+  const words=["Are you sure?","Really?","Think again.","Nice try. ♡","Not quite.","I think you mean YES.","One more chance…","Nope. ♡"];
+  no.textContent=words[Math.min(moves-1,words.length-1)];
+  no.style.position="fixed";
+  no.style.left=(10+Math.random()*80)+"vw";
+  no.style.top=(20+Math.random()*65)+"vh";
+  no.style.transform="translate(-50%,-50%) rotate("+(Math.random()*18-9)+"deg)";
+}
+no.addEventListener("mouseenter",dodge);
+no.addEventListener("touchstart",e=>{e.preventDefault();dodge()},{passive:false});
+no.addEventListener("click",dodge);
+
+yes.addEventListener("click",()=>{
+  q.style.display="none";s.style.display="block";launchConfetti();
+});
+function launchConfetti(){
+  const c=document.getElementById("confetti"),x=c.getContext("2d");
+  c.width=innerWidth;c.height=innerHeight;
+  const colors=["#b39458","#20372d","#d9c7a2","#a87872","#f4e9cf"],p=[];
+  for(let i=0;i<190;i++)p.push({x:innerWidth/2+(Math.random()-.5)*150,y:innerHeight*.35,vx:(Math.random()-.5)*12,vy:-Math.random()*12-3,g:.24+Math.random()*.1,z:Math.random()*7+3,r:Math.random()*6});
+  let f=0;
+  (function a(){
+    x.clearRect(0,0,c.width,c.height);
+    p.forEach(o=>{o.x+=o.vx;o.y+=o.vy;o.vy+=o.g;o.r+=.15;x.save();x.translate(o.x,o.y);x.rotate(o.r);x.fillStyle=colors[Math.floor(Math.random()*colors.length)];x.fillRect(-o.z/2,-o.z/2,o.z,o.z*.65);x.restore()});
+    if(++f<220)requestAnimationFrame(a);else x.clearRect(0,0,c.width,c.height);
+  })();
+}
+</script>
+</body>
+</html>
